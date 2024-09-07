@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Countdown</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+        }
+        /* Video background styling */
+        video#bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .container {
+            text-align: center;
+            background-color: white; /* White background */
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: pink; /* Text color pink */
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .time-block {
+            background: rgba(255, 182, 193, 0.2); /* Light pink background for time blocks */
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 100px;
+        }
+        .time {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .icons {
+            margin-top: 2rem;
+            font-size: 3rem;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @media (max-width: 600px) {
+            .countdown {
+                flex-direction: column;
+            }
+        }
+
+        /* Styling for SoundCloud embed in the bottom-right */
+        .soundcloud-embed {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 150px;
+            z-index: 10;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Video background -->
+    <video id="bg-video" autoplay muted loop>
+        <source src="bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <h1>Birthday Countdown!</h1>
+        <div class="countdown">
+            <div class="time-block">
+                <div class="time" id="hours">00</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="time-block">
+                <div class="time" id="minutes">00</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="time-block">
+                <div class="time" id="seconds">00</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+        <div class="icons">🎂🎁</div>
+    </div>
+
+    <!-- SoundCloud Embed (positioned bottom-right) -->
+    <div class="soundcloud-embed">
+        <iframe width="100%" height="100%" scrolling="no" frameborder="no" allow="autoplay" 
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nazirman-804623315/sets/exo-chill&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+    </div>
+
+    <script>
+        // Set the countdown end time directly in code
+        const countdownEndTime = new Date('2024-12-31T17:14:59'); // Example: December 31, 2024, 11:59:59 PM
+
+        function getTimeLeft() {
+            const now = new Date();
+            const diff = countdownEndTime - now;
+
+            return {
+                hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((diff / 1000 / 60) % 60),
+                seconds: Math.floor((diff / 1000) % 60)
+            };
+        }
+
+        function updateCountdown() {
+            const timeLeft = getTimeLeft();
+            document.getElementById('hours').textContent = String(timeLeft.hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(timeLeft.minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(timeLeft.seconds).padStart(2, '0');
+
+            if (timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+                window.location.href = 'pages/wish.html'; // Redirect to wish.html
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        const icons = document.querySelector('.icons');
+        icons.addEventListener('mouseover', () => {
+            icons.style.transform = 'scale(1.1)';
+        });
+        icons.addEventListener('mouseout', () => {
+            icons.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>

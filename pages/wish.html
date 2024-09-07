@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish Page</title>
+    <link rel="stylesheet" href="wishsStyle.css">
+    <script src="wishScript.js" defer></script>
+</head>
+<body>
+
+<!-- Video container -->
+<div id="video-container">
+    <video id="background-video" autoplay muted loop>
+        <source src="chanyeol.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div id="video-name">Ur Halu BF Chanyeol</div>
+</div>
+
+<div>
+    <h1 id="heading01">HAPPY BIRTHDAY<br>Rinan Dihana cintakuu 🎂</h1>
+    <canvas id="canvas"></canvas>
+    <button id="play-music">Play Music</button>
+</div>
+
+<!-- Audio element -->
+<audio id="background-music" src="hbirthday.mp3" loop>
+    Your browser does not support the audio element.
+</audio>
+
+<footer>
+    <p>Made with love Nazir</p>
+</footer>
+
+<script>
+    // Function to start music playback
+    function playMusic() {
+        const audio = document.getElementById('background-music');
+        audio.play().catch(error => {
+            console.log('Audio playback failed:', error);
+        });
+    }
+
+    // Add event listener for button click to start music
+    document.getElementById('play-music').addEventListener('click', playMusic);
+
+    // Try autoplay on page load if user interaction is not strictly required
+    window.addEventListener('load', () => {
+        playMusic();
+    });
+
+    // Ensure the music plays once user interacts with the page if autoplay fails
+    document.body.addEventListener('click', () => {
+        playMusic();
+    });
+</script>
+
+</body>
+</html>
